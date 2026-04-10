@@ -17,16 +17,18 @@ export async function pdfUrlToBase64DataUrl(url: string): Promise<string> {
     const buffer = Buffer.from(arrayBuffer);
 
     // Convert to base64
-    const base64 = buffer.toString('base64');
+    const base64 = buffer.toString("base64");
 
     // Create a data URL
     const dataUrl = `data:application/pdf;base64,${base64}`;
 
-    console.log(`[PDF Fetch] Successfully converted PDF to base64 (${Math.round(buffer.length / 1024)}KB)`);
+    console.log(
+      `[PDF Fetch] Successfully converted PDF to base64 (${Math.round(buffer.length / 1024)}KB)`,
+    );
 
     return dataUrl;
   } catch (error) {
-    console.error('[PDF Fetch] Error fetching/converting PDF:', error);
+    console.error("[PDF Fetch] Error fetching/converting PDF:", error);
     throw error;
   }
 }

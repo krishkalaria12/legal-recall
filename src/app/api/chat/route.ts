@@ -1,8 +1,8 @@
-import { streamText, convertToModelMessages, consumeStream } from "ai";
-import { google } from "@ai-sdk/google";
-import { pdfUrlToBase64DataUrl } from "@/lib/pdf-to-base64";
 import { db } from "@/lib/db";
-import { chats, messages as _messages } from "@/lib/db/schema";
+import { messages as _messages, chats } from "@/lib/db/schema";
+import { pdfUrlToBase64DataUrl } from "@/lib/pdf-to-base64";
+import { google } from "@ai-sdk/google";
+import { consumeStream, streamText } from "ai";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
@@ -60,23 +60,23 @@ export async function POST(req: Request) {
       if (index === 0) {
         // First message should include the PDF
         return {
-          role: 'user' as const,
+          role: "user" as const,
           content: [
             {
-              type: 'text' as const,
+              type: "text" as const,
               text: textContent,
             },
             {
-              type: 'file' as const,
+              type: "file" as const,
               data: pdfDataUrl,
-              mediaType: 'application/pdf',
+              mediaType: "application/pdf",
             },
           ],
         };
       }
       // Subsequent messages are text only
       return {
-        role: 'user' as const,
+        role: "user" as const,
         content: textContent,
       };
     });

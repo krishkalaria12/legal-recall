@@ -1,11 +1,15 @@
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
-import React from "react";
 import ReactMarkdown from "react-markdown";
 
-type TextPart = { type: 'text'; text: string };
+type TextPart = { type: "text"; text: string };
 type AnyPart = TextPart | { type: string; [k: string]: any };
-type ChatMessage = { id: string; role: 'user' | 'assistant' | 'system' | 'tool'; parts?: AnyPart[]; content?: string };
+type ChatMessage = {
+  id: string;
+  role: "user" | "assistant" | "system" | "tool";
+  parts?: AnyPart[];
+  content?: string;
+};
 type Props = { isLoading: boolean; messages: ChatMessage[] };
 
 const MessageList = ({ messages, isLoading }: Props) => {
@@ -22,7 +26,7 @@ const MessageList = ({ messages, isLoading }: Props) => {
       {messages.map((message) => {
         const text = Array.isArray(message.parts)
           ? message.parts
-              .filter((p) => (p as AnyPart).type === 'text')
+              .filter((p) => (p as AnyPart).type === "text")
               .map((p) => (p as TextPart).text)
               .join("")
           : message.content || "";
@@ -35,14 +39,11 @@ const MessageList = ({ messages, isLoading }: Props) => {
             })}
           >
             <div
-              className={cn(
-                "max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm",
-                {
-                  "bg-gradient-to-r from-rose-500 via-rose-500 to-rose-400 text-white shadow-md":
-                    message.role === "user",
-                  "bg-white/90 text-slate-700 ring-1 ring-rose-100": message.role !== "user",
-                }
-              )}
+              className={cn("max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm", {
+                "bg-gradient-to-r from-rose-500 via-rose-500 to-rose-400 text-white shadow-md":
+                  message.role === "user",
+                "bg-white/90 text-slate-700 ring-1 ring-rose-100": message.role !== "user",
+              })}
             >
               <div className="whitespace-pre-wrap leading-relaxed">
                 <ReactMarkdown>{text}</ReactMarkdown>
